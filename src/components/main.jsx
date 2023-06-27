@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
+import CartContainer from "./cartContainer";
+import {useStateValue} from "../contexts/StateProvider"
 
 function MainApp(){
+
+    const [{ cartShow }] = useStateValue();
+    useEffect(() => {}, [cartShow]);
+
     return(
         <div>
             <div className="text-white w-[660px] h-[230px] bg-gray-700 m-auto mt-[50px] rounded-3xl">
@@ -30,6 +36,9 @@ function MainApp(){
                     </div>
                     <div className=" border-b-2 w-[770px] flex justify-center mx-auto"></div>
             </div>
+
+            {cartShow && <CartContainer />}
+
         </div>
     )
 }
