@@ -17,7 +17,6 @@ function CheckOut({showCart}){
         postal: "",
         city: "",
       });
-    console.log(info);
 
 
 

@@ -5,20 +5,20 @@ import { actionNew } from "../contexts/reducer";
 
 function MainApp(){
     const[data, setData] = useState([])
-    const url = `https://625a91bf0ab4013f94a2d9a8.mockapi.io/meals`
-    const fetchUserData = () => {
-        fetch(url)
-          .then(response => {
-            return response.json()
-          })
-          .then(data => {
-            setData(data)
-          })
-      }
-      useEffect(() => {fetchUserData()}, [])
-      console.log(data)
-
-
+    useEffect(() => {
+        const fetchUserData = () => {
+            return fetch("https://625a91bf0ab4013f94a2d9a8.mockapi.io/meals", {method: "GET"}
+    )
+              .then(response => {
+                return response.json()
+              })
+              .then(data => {
+                setData(data)
+              })
+          }
+        fetchUserData()
+    }, [])
+     
     const [{ cartShow }, dispatch] = useStateValue();
     useEffect(() => {}, [cartShow]);
     const showCart = () => {
