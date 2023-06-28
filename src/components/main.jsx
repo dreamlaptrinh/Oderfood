@@ -5,10 +5,13 @@ import { actionNew } from "../contexts/reducer";
 
 function MainApp(){
     const[data, setData] = useState([])
+    const[qty,setQty] = useState(0)
+    console.log(qty)
+
+
     useEffect(() => {
         const fetchUserData = () => {
-            return fetch("https://625a91bf0ab4013f94a2d9a8.mockapi.io/meals", {method: "GET"}
-    )
+            return fetch("https://625a91bf0ab4013f94a2d9a8.mockapi.io/meals", {method: "GET"})
               .then(response => {
                 return response.json()
               })
@@ -27,6 +30,7 @@ function MainApp(){
         cartShow: !cartShow,
         });
     };
+    
 
     return(
         <div>
@@ -53,7 +57,11 @@ function MainApp(){
                                 <div className="flex flex-wrap w-44">
                                     <div className="text-base font-semibold pr-4">Amount</div>
                                     <div className="">
-                                        <input type="number" min="1" className="w-8" placeholder="0"/>
+                                        <input type="number" min="1" className="w-8" placeholder="0" 
+                                         onChange={(e) =>
+                                            setQty({ ...qty, qty: e.target.value })
+                                          }
+                                        />
                                     </div>
                                     <div className="w-full bg-orange-500 rounded-full cursor-pointer my-2">+Add</div>
                                 </div>
