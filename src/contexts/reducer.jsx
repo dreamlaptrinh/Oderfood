@@ -1,6 +1,6 @@
 export const actionNew = {
     SET_CART_SHOW: "SET_CART_SHOW",
-    // SET_CART_ITEMS: "SET_CART_ITEMS",
+    SET_CART_ITEMS: "SET_CART_ITEMS",
   };
   
   const reducer = (state, action) => {
@@ -11,11 +11,11 @@ export const actionNew = {
           cartShow: action.cartShow,
         };
   
-    //   case actionNew.SET_CART_ITEMS: // trang thai show cart item ban dau
-    //     return {
-    //       ...state,
-    //       cartItems: action.cartItems,
-    //     };
+      case actionNew.SET_CART_ITEMS: // trang thai show cart item ban dau
+        return {
+          ...state,
+          cartItems: action.cartItems,
+        };
   
       default:
         return state;

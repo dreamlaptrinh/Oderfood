@@ -2,11 +2,22 @@ import React, { useEffect, useState } from "react";
 import CartContainer from "./cartContainer";
 import {useStateValue} from "../contexts/StateProvider"
 import { actionNew } from "../contexts/reducer";
+import secureLocalStorage from "react-secure-storage";
+import { fetchCart } from "../contexts/fetchLocalStorageData";
 
 function MainApp(){
     const[data, setData] = useState([])
+    const[loadingAdd, setLoadingAdd] = useState(false);
+
+
     const[qty,setQty] = useState(0)
+    const cartInfo = fetchCart() 
+    const[items, setItems]=useState(cartInfo)
     console.log(qty)
+    console.log(qty.qty)
+    const qty1 = qty.qty
+    console.log(qty1)
+
 
 
     useEffect(() => {
@@ -22,7 +33,8 @@ function MainApp(){
         fetchUserData()
     }, [])
      
-    const [{ cartShow }, dispatch] = useStateValue();
+    const [{ cartShow, cartItems }, dispatch] = useStateValue();
+    
     useEffect(() => {}, [cartShow]);
     const showCart = () => {
         dispatch({
@@ -30,7 +42,47 @@ function MainApp(){
         cartShow: !cartShow,
         });
     };
-    
+
+    const addtoCart = (products) => {
+        dispatch({
+            type: actionNew.SET_CART_ITEMS,
+            cartItems: products,
+        })
+        secureLocalStorage.setItem("cartItems", JSON.stringify(items));
+    }
+
+    const addItemtoCart = (pro) => {
+        console.log(qty)
+        setLoadingAdd(!loadingAdd);
+
+        if(qty === 0){
+            setLoadingAdd(false);
+        }
+        else{
+            const list = [...cartItems]
+            const r = list.findIndex(i => i.id == pro.id)
+            if(r < 0){
+                const neuItem = {...pro, qty1}
+                list.push(neuItem)
+                setItems(list)
+                addtoCart(list)
+            }else{
+                list[r].qty1 = ++list[r].qty1
+                setItems(list)
+                addtoCart(list)
+            }
+        }
+        if(qty === ''){
+            return false
+        } 
+    }
+    console.log(cartItems)
+
+    useEffect(()=>{
+        addtoCart(items)
+    },[items])
+
+ 
 
     return(
         <div>
@@ -63,7 +115,9 @@ function MainApp(){
                                           }
                                         />
                                     </div>
-                                    <div className="w-full bg-orange-500 rounded-full cursor-pointer my-2">+Add</div>
+                                    <div className="w-full bg-orange-500 rounded-full cursor-pointer my-2"
+                                        onClick={()=>addItemtoCart(item)}
+                                    >+Add</div>
                                 </div>
                             </div>
                             <div className=" border-b-2 w-[770px] flex justify-center mx-auto"></div>
