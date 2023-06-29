@@ -13,10 +13,10 @@ function MainApp(){
     const[qty,setQty] = useState(0)
     const cartInfo = fetchCart() 
     const[items, setItems]=useState(cartInfo)
-    console.log(qty)
-    console.log(qty.qty)
+    // console.log(qty)
+    // console.log(qty.qty)
     const qty1 = qty.qty
-    console.log(qty1)
+    // console.log(qty1)
 
 
 
@@ -52,22 +52,32 @@ function MainApp(){
     }
 
     const addItemtoCart = (pro) => {
-        console.log(qty)
+        console.log('quantity', qty);
+        console.log('pro', pro);
         setLoadingAdd(!loadingAdd);
 
-        if(qty === 0){
+
+        if(qty === 0 || qty?.qty === '0' || qty?.qty === ''){ 
             setLoadingAdd(false);
         }
         else{
-            const list = [...cartItems]
+            let list = [...cartItems]
             const r = list.findIndex(i => i.id == pro.id)
+            console.log('index',r);
             if(r < 0){
-                const neuItem = {...pro, qty1}
-                list.push(neuItem)
+                // const neuItem = {...pro, qty1}
+                list = [...list,{
+                    ...pro,
+                    qty1: parseInt(qty.qty)
+                }]
                 setItems(list)
                 addtoCart(list)
             }else{
-                list[r].qty1 = ++list[r].qty1
+                // list[r].qty1 = ++list[r].qty1
+                list[r] = {
+                    ...list[r] ,
+                    qty1: parseInt(qty.qty) + list[r].qty1
+                }
                 setItems(list)
                 addtoCart(list)
             }
