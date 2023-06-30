@@ -11,10 +11,8 @@ function MainApp(){
     const[loadingAdd, setLoadingAdd] = useState(false);
 
 
-    const[qty,setQty] = useState(0)
     const cartInfo = fetchCart() 
     const[items, setItems]=useState(cartInfo)
-    // console.log(qty)
     // console.log(qty.qty)
     // const qty1 = qty.qty
     // console.log(qty1)
@@ -52,13 +50,13 @@ function MainApp(){
         secureLocalStorage.setItem("cartItems", JSON.stringify(items));
     }
 
-    const addItemtoCart = (pro) => {
-        console.log('quantity', qty);
+    const addItemtoCart = (pro,q) => {
+        console.log('quantity', q);
         console.log('pro', pro);
         setLoadingAdd(!loadingAdd);
 
 
-        if(qty === 0 || qty?.qty === '0' || qty?.qty === ''){ 
+        if(q === 0 || q === '0' || q === ''){
             setLoadingAdd(false);
         }
         else{
@@ -69,7 +67,7 @@ function MainApp(){
                 // const neuItem = {...pro, qty1}
                 list = [...list,{
                     ...pro,
-                    qty1: parseInt(qty.qty)
+                    qty1: parseInt(q)
                 }]
                 setItems(list)
                 addtoCart(list)
@@ -77,15 +75,15 @@ function MainApp(){
                 // list[r].qty1 = ++list[r].qty1
                 list[r] = {
                     ...list[r] ,
-                    qty1: parseInt(qty.qty) + list[r].qty1
+                    qty1: parseInt(q) + list[r].qty1
                 }
                 setItems(list)
                 addtoCart(list)
             }
         }
-        if(qty === 0){
+        if(q === 0){
             return false
-        } 
+        }
     }
     console.log(cartItems)
 

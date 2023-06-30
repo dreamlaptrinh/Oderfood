@@ -21,7 +21,7 @@ function ListItem ({image, name, description, price, addItemtoCart, item}){
                         <div className="">
                             <input type="number" min="1" className="w-8" placeholder="0" 
                             onChange={(e) =>
-                                setQty({ ...qty, qty: e.target.value })
+                                setQty(e.target.value)
                                 }
                             />
                         </div>
