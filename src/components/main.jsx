@@ -9,14 +9,8 @@ import ListItem from "./listItem";
 function MainApp(){
     const[data, setData] = useState([])
     const[loadingAdd, setLoadingAdd] = useState(false);
-
-
     const cartInfo = fetchCart() 
     const[items, setItems]=useState(cartInfo)
-    // console.log(qty.qty)
-    // const qty1 = qty.qty
-    // console.log(qty1)
-
 
 
     useEffect(() => {
@@ -64,18 +58,16 @@ function MainApp(){
             const r = list.findIndex(i => i.id === pro.id)
             console.log('index',r);
             if(r < 0){
-                // const neuItem = {...pro, qty1}
                 list = [...list,{
                     ...pro,
-                    qty1: parseInt(q)
+                    qty: parseInt(q)
                 }]
                 setItems(list)
                 addtoCart(list)
             }else{
-                // list[r].qty1 = ++list[r].qty1
                 list[r] = {
                     ...list[r] ,
-                    qty1: parseInt(q) + list[r].qty1
+                    qty: parseInt(q) + list[r].qty
                 }
                 setItems(list)
                 addtoCart(list)
@@ -92,7 +84,6 @@ function MainApp(){
     },[items])
 
  
-
     return(
         <div>
             <div className="text-white w-[660px] h-[230px] bg-gray-700 m-auto mt-[50px] rounded-3xl">
@@ -102,7 +93,7 @@ function MainApp(){
                 <div className="text-sm font-medium pt-6">
                     All our meals are cooked with high-quality ingredients, just-in-time and of course by experienced chefs!</div>
             </div>
-            <div className="bg-white w-[800px] h-screen rounded-3xl m-auto mt-[50px] flex flex-col">
+            <div className="bg-white w-[800px] h-[530px] rounded-3xl m-auto mt-[50px] flex flex-col overflow-y-scroll scrollbar-none">
                 {data.length > 0 && (
                     data.map(item => (
                         <ListItem
