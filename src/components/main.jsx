@@ -4,6 +4,7 @@ import {useStateValue} from "../contexts/StateProvider"
 import { actionNew } from "../contexts/reducer";
 import secureLocalStorage from "react-secure-storage";
 import { fetchCart } from "../contexts/fetchLocalStorageData";
+import ListItem from "./listItem";
 
 function MainApp(){
     const[data, setData] = useState([])
@@ -15,7 +16,7 @@ function MainApp(){
     const[items, setItems]=useState(cartInfo)
     // console.log(qty)
     // console.log(qty.qty)
-    const qty1 = qty.qty
+    // const qty1 = qty.qty
     // console.log(qty1)
 
 
@@ -62,7 +63,7 @@ function MainApp(){
         }
         else{
             let list = [...cartItems]
-            const r = list.findIndex(i => i.id == pro.id)
+            const r = list.findIndex(i => i.id === pro.id)
             console.log('index',r);
             if(r < 0){
                 // const neuItem = {...pro, qty1}
@@ -82,7 +83,7 @@ function MainApp(){
                 addtoCart(list)
             }
         }
-        if(qty === ''){
+        if(qty === 0){
             return false
         } 
     }
@@ -106,32 +107,14 @@ function MainApp(){
             <div className="bg-white w-[800px] h-screen rounded-3xl m-auto mt-[50px] flex flex-col">
                 {data.length > 0 && (
                     data.map(item => (
-                        <div className="Item">
-                            <div className="flex items-center w-full justify-between px-4 py-6">
-                                <div className="w-48 h-20 bg-orange-300">
-                                    <img src={item.image} alt="" />
-                                </div>
-                                <div className="flex flex-col items-start w-full ml-2">
-                                    <div className="Name text-base font-bold">{item.name}</div>
-                                    <div className="Des text-sm font-normal italic">{item.description}</div>
-                                    <div className="Price text-orange-800 text-base font-semibold">${item.price}</div>
-                                </div>
-                                <div className="flex flex-wrap w-44">
-                                    <div className="text-base font-semibold pr-4">Amount</div>
-                                    <div className="">
-                                        <input type="number" min="1" className="w-8" placeholder="0" 
-                                         onChange={(e) =>
-                                            setQty({ ...qty, qty: e.target.value })
-                                          }
-                                        />
-                                    </div>
-                                    <div className="w-full bg-orange-500 rounded-full cursor-pointer my-2"
-                                        onClick={()=>addItemtoCart(item)}
-                                    >+Add</div>
-                                </div>
-                            </div>
-                            <div className=" border-b-2 w-[770px] flex justify-center mx-auto"></div>
-                        </div>
+                        <ListItem
+                            image = {item.image}
+                            name={item.name}
+                            description={item.description}
+                            price={item.price}
+                            addItemtoCart={addItemtoCart}
+                            item={item}
+                        />
                     ))
                 )}
             </div>
