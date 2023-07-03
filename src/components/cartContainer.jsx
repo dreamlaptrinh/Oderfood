@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CheckOut from "./checkOut";
 import { useStateValue } from "../contexts/StateProvider";
 import CartItem from "./cartItem";
@@ -13,6 +13,13 @@ function CartContainer ({showCart}){
         setLoadBut(false);
     }
     const [{cartItems }, dispatch] = useStateValue();
+    const [tot, setTot] = useState(0);
+    useEffect(() => {
+        let totalPrice = cartItems.reduce(function (sum, item) {
+          return sum + item.qty * item.price;
+        }, 0);
+        setTot(totalPrice);
+      }, [tot, cartItems]);
 
 
     return ( 
@@ -33,7 +40,7 @@ function CartContainer ({showCart}){
                 <div className="CartTot mt-2">
                     <div className="flex justify-between w-full mt-3 px-4 ">
                         <div className="text-base font-semibold">Total Amount</div>
-                        <div className="text-base font-semibold">$91.96</div>
+                        <div className="text-base font-semibold">${tot.toFixed(2)}</div>
                     </div>
                     {loadBut === true ? (<div className="flex flex-row-reverse mr-3 gap-3 mt-6">
                         <button className="w-20 h-8 border-orange-500 bg-orange-500 border-2 flex justify-center items-center rounded-xl text-white"
